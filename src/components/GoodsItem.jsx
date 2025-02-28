@@ -1,6 +1,12 @@
 export function GoodsItem(props) {
-  const { offerId, displayName, displayDescription, price, granted, onClick } =
-    props;
+  const {
+    offerId,
+    displayName,
+    displayDescription,
+    price,
+    granted,
+    addToBasket = Function.prototype,
+  } = props;
   const noImage =
     "https://as2.ftcdn.net/v2/jpg/02/51/95/53/1000_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg";
   // console.log(granted[0]?.images);
@@ -30,7 +36,18 @@ export function GoodsItem(props) {
           alignItems: "center",
         }}
       >
-        <button className="btn" onClick={() => onClick(offerId)}>
+        <button
+          className="btn"
+          onClick={() =>
+            addToBasket({
+              offerId,
+              displayName,
+              displayDescription,
+              price,
+              granted,
+            })
+          }
+        >
           Buy
         </button>
         <span className="right" style={{ fontSize: "1.8rem" }}>

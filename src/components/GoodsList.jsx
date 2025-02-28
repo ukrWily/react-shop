@@ -1,6 +1,6 @@
 import { GoodsItem } from "./GoodsItem";
 
-export function GoodsList({ goods = [], onClick }) {
+export function GoodsList({ goods = [], addToBasket = Function.prototype }) {
   // console.log(...goods);
   if (!goods.length) {
     return <h3>Nothing here</h3>;
@@ -9,7 +9,7 @@ export function GoodsList({ goods = [], onClick }) {
   return (
     <div className="goods">
       {goods.map((item) => (
-        <GoodsItem onClick={onClick} key={item.offerId} {...item} />
+        <GoodsItem addToBasket={addToBasket} key={item.offerId} {...item} />
       ))}
     </div>
   );

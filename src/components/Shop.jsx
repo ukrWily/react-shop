@@ -32,9 +32,31 @@ export function Shop() {
       });
   }, []);
 
-  const handleAddGoods = (id) => {
-    setOrder((prevOrder) => [...prevOrder, id]);
-    console.log(order);
+  const addToBasket = (item) => {
+    console.log(item);
+
+    const itemIndex = order.findIndex(
+      (orderItem) => orderItem.offerId === item.offerId
+    );
+    if (itemIndex < 0) {
+      const newItem = {
+        ...item,
+        quantity: 1,
+      };
+      setOrder([...order, newItem]);
+    } else {
+      const newOrder = order.map((orderItem, index) => {
+        if (index === itemIndex) {
+          return {
+            ...orderItem,
+            quantity: orderItem.quantity + 1,
+          };
+        } else {
+          return orderItem;
+        }
+      });
+      setOrder(newOrder);
+    }
   };
 
   return (
@@ -43,7 +65,7 @@ export function Shop() {
       {loading ? (
         <Preloader />
       ) : (
-        <GoodsList onClick={handleAddGoods} goods={goods} />
+        <GoodsList addToBasket={addToBasket} goods={goods} />
       )}
     </main>
   );
