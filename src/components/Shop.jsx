@@ -16,6 +16,11 @@ export function Shop() {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
+  const [isBasketShow, setIsBasketShow] = useState(false);
+
+  const handleBasketShow = (item) => {
+    setIsBasketShow(!isBasketShow);
+  };
 
   useEffect(function getGoods() {
     fetch(API_URL, {
@@ -61,7 +66,7 @@ export function Shop() {
 
   return (
     <main className="container content">
-      <Cart quantity={order.length} />
+      <Cart quantity={order.length} handleBasketShow={handleBasketShow} />
       {loading ? (
         <Preloader />
       ) : (
