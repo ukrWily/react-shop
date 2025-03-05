@@ -3,6 +3,8 @@ import { API_KEY, API_URL } from "../config";
 import { Preloader } from "./Preloader";
 import { GoodsList } from "./GoodsList";
 import { Cart } from "./Cart";
+import { BasketList } from "./BasketList";
+import { Alert } from "./Alert";
 
 /**
  * params:
@@ -17,6 +19,7 @@ export function Shop() {
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
   const [isBasketShow, setIsBasketShow] = useState(false);
+  const [alertName, setAlertName] = useState("");
 
   const handleBasketShow = (item) => {
     setIsBasketShow(!isBasketShow);
@@ -37,9 +40,22 @@ export function Shop() {
       });
   }, []);
 
-  const addToBasket = (item) => {
-    console.log(item);
+  const addQuantity = (itemId, sign) => {
+    const newOrder = order.map((el) => {
+      if (el.offerId === itemId) {
+        const newQuantity = el.quantity + sign;
+        return {
+          ...el,
+          quantity: newQuantity < 1 ? 1 : newQuantity,
+        };
+      } else {
+        return el;
+      }
+    });
+    setOrder(newOrder);
+  };
 
+  const addToBasket = (item) => {
     const itemIndex = order.findIndex(
       (orderItem) => orderItem.offerId === item.offerId
     );
@@ -62,6 +78,16 @@ export function Shop() {
       });
       setOrder(newOrder);
     }
+    setAlertName(item.displayName);
+  };
+
+  const removeFromBasket = (itemId) => {
+    const newOrder = order.filter((el) => el.offerId !== itemId);
+    setOrder(newOrder);
+  };
+
+  const closeAlert = () => {
+    setAlertName("");
   };
 
   return (
@@ -72,6 +98,15 @@ export function Shop() {
       ) : (
         <GoodsList addToBasket={addToBasket} goods={goods} />
       )}
+      {isBasketShow && (
+        <BasketList
+          order={order}
+          handleBasketShow={handleBasketShow}
+          removeFromBasket={removeFromBasket}
+          addQuantity={addQuantity}
+        />
+      )}
+      {alertName && <Alert name={alertName} closeAlert={closeAlert} />}
     </main>
   );
 }

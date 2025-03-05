@@ -8,9 +8,12 @@ export function GoodsList({ goods = [], addToBasket = Function.prototype }) {
 
   return (
     <div className="goods">
-      {goods.map((item) => (
-        <GoodsItem addToBasket={addToBasket} key={item.offerId} {...item} />
-      ))}
+      {goods.map(
+        (item, i) =>
+          i < 9 && (
+            <GoodsItem addToBasket={addToBasket} key={item.offerId} {...item} />
+          )
+      )}
     </div>
   );
 }
