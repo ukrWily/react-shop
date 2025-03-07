@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { ShopContext } from "../context";
+
 export function GoodsItem(props) {
   const {
     offerId,
@@ -5,8 +8,11 @@ export function GoodsItem(props) {
     displayDescription,
     price,
     granted,
-    addToBasket = Function.prototype,
+    // addToBasket = Function.prototype,
   } = props;
+
+  const { addToBasket } = useContext(ShopContext);
+
   const noImage =
     "https://as2.ftcdn.net/v2/jpg/02/51/95/53/1000_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg";
   // console.log(granted[0]?.images);

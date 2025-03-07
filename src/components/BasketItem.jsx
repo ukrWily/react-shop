@@ -1,14 +1,10 @@
-import React from "react";
+import { useContext } from "react";
+import { ShopContext } from "../context";
 
 export function BasketItem(props) {
-  const {
-    offerId,
-    displayName,
-    price,
-    quantity,
-    removeFromBasket = Function.prototype,
-    addQuantity = Function.prototype,
-  } = props;
+  const { offerId, displayName, price, quantity } = props;
+
+  const { removeFromBasket, addQuantity } = useContext(ShopContext);
 
   return (
     <div>
